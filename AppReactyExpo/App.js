@@ -1,21 +1,17 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.contenedor}>
-      <Text style={styles.texto}>Hola mundo</Text>
-    </View>
-  );
-}
+const API_CONFIG = {
+    BASE_URL: 'https://gamebrain.co/api',
+    API_KEY: '2813d4a7f5b647a2932d40f132c48e71'
+};
 
-const styles = StyleSheet.create({
-  contenedor: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  texto: {
-    fontSize: 20,
-  },
-});
+export async function callGameBrain(endpoint, params = {}) {
+    const queryParams = new URLSearchParams({
+        ...params,
+        'api-key': API_CONFIG.API_KEY
+    });
+
+    const response = await fetch(`${API_CONFIG.BASE_URL}${endpoint}?${queryParams}`);
+    return await response.json();
+}
